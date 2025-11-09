@@ -1,36 +1,198 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>New Academy Audition - Step 1</title>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <!--
+    audition1.html
+    New Academy — Audition Step 1 (basic info)
+    Behavior:
+      - Collects basic fields
+      - Validates client-side
+      - Saves to localStorage under 'newacademy_step1'
+      - Navigates to audition.html (Step 2) for final submission
+    Why localStorage:
+      - Keeps the two-step flow without posting Step 1 to Formspree (avoids 405)
+      - Allows returning users to resume
+  -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>New Academy — Audition Step 1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <script>
+    // Inline helper detects if script can use localStorage (graceful fallback)
+    function localStorageAvailable() {
+      const test = '__na_test__';
+      try {
+        localStorage.setItem(test, test);
+        localStorage.removeItem(test);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+    window.__na_local_storage_ok__ = localStorageAvailable();
+  </script>
 </head>
-<body>
-  <header>
-    <h1>New Academy Audition — Step 1</h1>
-    <p>Basic information form.</p>
+<body class="page page-audition1">
+  <a class="skip-link" href="#audition-form">Skip to form</a>
+
+  <header class="site-header small">
+    <div class="header-inner">
+      <div class="logo-wrap"><div class="logo-circle">Logo</div></div>
+      <div class="title-wrap">
+        <h1 class="site-title small">New Academy — Step 1</h1>
+        <p class="site-tagline">Basic info — then go to Step 2 to submit your performance.</p>
+      </div>
+      <div class="header-actions">
+        <a class="btn btn-ghost" href="index.html">Home</a>
+      </div>
+    </div>
   </header>
 
-  <form action="https://formspree.io/f/xnnoeyng" method="POST">
-    <label>Full Name</label>
-    <input type="text" name="name" required>
+  <main id="main-content" class="main">
+    <section class="card form-card" aria-labelledby="form-heading">
+      <h2 id="form-heading">Audition — Step 1 (Personal Info)</h2>
+      <p class="muted">This step saves your info locally and takes you to Step 2. Step 2 is the page that submits to Formspree.</p>
 
-    <label>Email</label>
-    <input type="email" name="email" required>
+      <form id="step1-form" class="na-form" autocomplete="on" novalidate>
+        <!-- Name -->
+        <label for="na_name">Full name</label>
+        <input id="na_name" name="name" type="text" placeholder="Your full name" required aria-required="true" />
 
-    <label>Age</label>
-    <input type="number" name="age" required>
+        <!-- Email -->
+        <label for="na_email">Email</label>
+        <input id="na_email" name="email" type="email" placeholder="you@example.com" required aria-required="true" />
 
-    <label>Country</label>
-    <input type="text" name="country" required>
+        <!-- Age -->
+        <label for="na_age">Age</label>
+        <input id="na_age" name="age" type="number" min="10" max="100" placeholder="Your age" required aria-required="true" />
 
-    <button type="submit" class="btn" formaction="audition2.html">Next Step</button>
-  </form>
+        <!-- Country -->
+        <label for="na_country">Country</label>
+        <input id="na_country" name="country" type="text" placeholder="Country" required aria-required="true" />
 
-  <footer>
-    <p>© 2025 New Academy</p>
+        <!-- Role -->
+        <label for="na_role">Preferred Role</label>
+        <select id="na_role" name="role" required>
+          <option value="">Select role</option>
+          <option value="vocal">Vocal</option>
+          <option value="rap">Rap</option>
+          <option value="dance">Dance</option>
+          <option value="visual">Visual</option>
+        </select>
+
+        <!-- Optional short bio -->
+        <label for="na_bio">Short bio (optional)</label>
+        <textarea id="na_bio" name="bio" rows="4" placeholder="A short intro about you..."></textarea>
+
+        <!-- Buttons: Save & Continue -->
+        <div class="form-actions">
+          <button type="button" id="save-continue" class="btn btn-primary">Save & Continue to Step 2</button>
+          <a href="index.html" class="btn btn-ghost">Cancel</a>
+        </div>
+
+        <!-- Hidden status area to show errors / success -->
+        <div id="step1-status" role="status" aria-live="polite" class="form-status"></div>
+      </form>
+    </section>
+
+    <!-- Tips card -->
+    <aside class="card tips" aria-labelledby="tips-title">
+      <h3 id="tips-title">Tips for a great audition</h3>
+      <ul>
+        <li>Prepare a 60–120 second performance clip.</li>
+        <li>Use natural lighting and clear audio.</li>
+        <li>Introduce yourself at the start of the video (name, age, country).</li>
+      </ul>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div>© <span id="year1"></span> New Academy</div>
   </footer>
+
+  <script>
+    // set year
+    document.getElementById('year1').textContent = new Date().getFullYear();
+
+    (function () {
+      const form = document.getElementById('step1-form');
+      const saveBtn = document.getElementById('save-continue');
+      const status = document.getElementById('step1-status');
+
+      // helper: show status messages
+      function showStatus(msg, type='info') {
+        status.textContent = msg;
+        status.className = 'form-status ' + type;
+      }
+
+      // load saved values if present
+      function loadSaved() {
+        try {
+          const raw = localStorage.getItem('newacademy_step1');
+          if (raw) {
+            const data = JSON.parse(raw);
+            if (data.name) document.getElementById('na_name').value = data.name;
+            if (data.email) document.getElementById('na_email').value = data.email;
+            if (data.age) document.getElementById('na_age').value = data.age;
+            if (data.country) document.getElementById('na_country').value = data.country;
+            if (data.role) document.getElementById('na_role').value = data.role;
+            if (data.bio) document.getElementById('na_bio').value = data.bio;
+            showStatus('Loaded previous info — you can continue to Step 2 or overwrite it.', 'success');
+          }
+        } catch (e) {
+          console.warn('Could not load localStorage:', e);
+        }
+      }
+
+      // validate form fields a bit more before saving
+      function validateFields() {
+        const name = document.getElementById('na_name').value.trim();
+        const email = document.getElementById('na_email').value.trim();
+        const age = document.getElementById('na_age').value;
+        const country = document.getElementById('na_country').value.trim();
+        const role = document.getElementById('na_role').value;
+        if (!name || !email || !age || !country || !role) {
+          showStatus('Please fill all required fields.', 'error');
+          return false;
+        }
+        // basic email check
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\\.,;:\s@"]+\.)+[^<>()[\]\\.,;:\s@"]{2,})$/i;
+        if (!re.test(email)) {
+          showStatus('Please provide a valid email address.', 'error');
+          return false;
+        }
+        return true;
+      }
+
+      // Save into localStorage and navigate to audition.html
+      saveBtn.addEventListener('click', function () {
+        if (!validateFields()) return;
+        const payload = {
+          name: document.getElementById('na_name').value.trim(),
+          email: document.getElementById('na_email').value.trim(),
+          age: document.getElementById('na_age').value,
+          country: document.getElementById('na_country').value.trim(),
+          role: document.getElementById('na_role').value,
+          bio: document.getElementById('na_bio').value.trim(),
+          savedAt: new Date().toISOString()
+        };
+        try {
+          localStorage.setItem('newacademy_step1', JSON.stringify(payload));
+          showStatus('Saved. Redirecting to Step 2...', 'success');
+          // slight delay for UX then redirect
+          setTimeout(() => {
+            window.location.href = 'audition.html';
+          }, 700);
+        } catch (e) {
+          showStatus('Could not save your data locally. Please try again or allow storage.', 'error');
+        }
+      });
+
+      // load saved on start
+      loadSaved();
+    })();
+  </script>
 </body>
 </html>
