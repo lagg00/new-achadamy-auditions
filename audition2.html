@@ -1,30 +1,200 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>New Academy Audition - Step 2</title>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <!--
+    audition.html
+    New Academy — Audition Step 2 (final submission to Formspree)
+    - Prefills data saved in localStorage by audition1.html
+    - Validates inputs
+    - Optionally allows file uploads (video/audio) or a video link
+    - Posts to Formspree endpoint safely — no 405 errors because this form uses POST on this page only
+  -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>New Academy — Audition Submission</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Microdata for better form discoverability -->
+  <meta name="description" content="Submit your audition to New Academy. Upload a video or provide a link and share your intro.">
+
+  <script>
+    // small inline config
+    window.__NA_FORMSPREE_ENDPOINT = 'https://formspree.io/f/xnnoeyng';
+  </script>
 </head>
-<body>
-  <header>
-    <h1>New Academy Audition — Step 2</h1>
-    <p>Submit your performance materials.</p>
+<body class="page page-audition2">
+  <a class="skip-link" href="#final-form">Skip to form</a>
+
+  <header class="site-header small">
+    <div class="header-inner">
+      <div class="logo-wrap"><div class="logo-circle">Logo</div></div>
+      <div class="title-wrap">
+        <h1 class="site-title small">New Academy — Final Submission</h1>
+        <p class="site-tagline">Upload your performance or share a link — finish your application.</p>
+      </div>
+      <div class="header-actions">
+        <a class="btn btn-ghost" href="index.html">Home</a>
+      </div>
+    </div>
   </header>
 
-  <form action="https://formspree.io/f/xnnoeyng" method="POST" enctype="multipart/form-data">
-    <label>Upload Vocal/Performance File</label>
-    <input type="file" name="performance" required>
+  <main id="main-content" class="main">
+    <section class="card form-card" aria-labelledby="final-heading">
+      <h2 id="final-heading">Audition — Step 2 (Performance)</h2>
 
-    <label>About You (Short Bio)</label>
-    <textarea name="bio" rows="5" placeholder="Tell us about your passion and experience..." required></textarea>
+      <p class="muted">If you previously filled Step 1, your info will be preloaded into the form below. If not, fill this form manually.</p>
 
-    <button type="submit" class="btn">Submit Audition</button>
-  </form>
+      <!-- Final Form: this POSTS to Formspree endpoint specified above -->
+      <form id="final-form" name="final-form" class="na-form" method="POST" action="https://formspree.io/f/xnnoeyng" enctype="multipart/form-data" novalidate>
+        <!-- Hidden: allow Formspree reply-to field -->
+        <input type="hidden" name="_subject" value="New Academy Audition Submission">
+        <!-- for better email replies -->
+        <label for="final_name">Full name</label>
+        <input id="final_name" name="name" type="text" placeholder="Full name" required aria-required="true" />
 
-  <footer>
-    <p>© 2025 New Academy — Thank you for auditioning!</p>
+        <label for="final_email">Email</label>
+        <input id="final_email" name="_replyto" type="email" placeholder="you@example.com" required aria-required="true" />
+
+        <label for="final_age">Age</label>
+        <input id="final_age" name="age" type="number" min="10" max="100" required aria-required="true" />
+
+        <label for="final_country">Country</label>
+        <input id="final_country" name="country" type="text" placeholder="Country" required aria-required="true" />
+
+        <label for="final_role">Role</label>
+        <select id="final_role" name="role" required>
+          <option value="">Select role</option>
+          <option value="vocal">Vocal</option>
+          <option value="rap">Rap</option>
+          <option value="dance">Dance</option>
+          <option value="visual">Visual</option>
+        </select>
+
+        <label for="videoLink">Performance video link (YouTube, Drive, etc.)</label>
+        <input id="videoLink" name="video" type="url" placeholder="https://">
+
+        <label for="fileUpload">Or upload a file (video/audio) — optional</label>
+        <input id="fileUpload" name="audition_file" type="file" accept="video/*,audio/*,image/*" />
+
+        <label for="final_bio">Short bio / message (optional)</label>
+        <textarea id="final_bio" name="message" rows="5" placeholder="Tell us about your passion, training, or why you want to join New Academy..."></textarea>
+
+        <label class="terms">
+          <input type="checkbox" id="agree" name="terms" required>
+          I agree to the terms &amp; conditions and confirm that this submission is mine. (Applicants under 18 must have guardian consent.)
+        </label>
+
+        <!-- place to show errors / status -->
+        <div id="final-status" role="status" aria-live="polite" class="form-status"></div>
+
+        <div class="form-actions">
+          <button type="submit" id="final-submit" class="btn btn-primary">Submit Audition</button>
+          <a class="btn btn-ghost" href="audition1.html">Back to Step 1</a>
+        </div>
+      </form>
+    </section>
+
+    <!-- small help / FAQ -->
+    <aside class="card tips" aria-labelledby="help-title">
+      <h3 id="help-title">Need help?</h3>
+      <ul>
+        <li>If your video file is large, upload it to YouTube (unlisted) or Google Drive and paste the link.</li>
+        <li>Formspree will email you a confirmation if configured — check your inbox/spam.</li>
+      </ul>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div>© <span id="year2"></span> New Academy</div>
   </footer>
+
+  <script>
+    // set year
+    document.getElementById('year2').textContent = new Date().getFullYear();
+
+    (function () {
+      const form = document.getElementById('final-form');
+      const status = document.getElementById('final-status');
+
+      // helper show
+      function showStatus(msg, type='info') {
+        status.textContent = msg;
+        status.className = 'form-status ' + type;
+      }
+
+      // prefill from localStorage if present
+      function prefillFromStep1() {
+        try {
+          const raw = localStorage.getItem('newacademy_step1');
+          if (!raw) return;
+          const d = JSON.parse(raw);
+          if (d.name) document.getElementById('final_name').value = d.name;
+          if (d.email) document.getElementById('final_email').value = d.email;
+          if (d.age) document.getElementById('final_age').value = d.age;
+          if (d.country) document.getElementById('final_country').value = d.country;
+          if (d.role) document.getElementById('final_role').value = d.role;
+          if (d.bio) document.getElementById('final_bio').value = d.bio;
+          showStatus('Prefilled from Step 1. You can update before submitting.', 'success');
+        } catch (e) {
+          console.warn('prefill failed', e);
+        }
+      }
+
+      // Basic validation before allowing submit (extra check)
+      function validateBeforeSubmit() {
+        // Required fields
+        const name = document.getElementById('final_name').value.trim();
+        const email = document.getElementById('final_email').value.trim();
+        const age = document.getElementById('final_age').value;
+        const country = document.getElementById('final_country').value.trim();
+        const role = document.getElementById('final_role').value;
+        const agree = document.getElementById('agree').checked;
+        if (!name || !email || !age || !country || !role) {
+          showStatus('Please fill all required fields before submitting.', 'error');
+          return false;
+        }
+        if (!agree) {
+          showStatus('You must agree to the terms to submit.', 'error');
+          return false;
+        }
+        // basic email
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\\.,;:\s@"]+\.)+[^<>()[\]\\.,;:\s@"]{2,})$/i;
+        if (!re.test(email)) {
+          showStatus('Please provide a valid email address.', 'error');
+          return false;
+        }
+        return true;
+      }
+
+      // intercept submit to show UI feedback and allow graceful handling
+      form.addEventListener('submit', function (e) {
+        if (!validateBeforeSubmit()) {
+          e.preventDefault();
+          return;
+        }
+        // show loading state
+        const submitBtn = document.getElementById('final-submit');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting...';
+
+        // Note: We let the form do the regular POST (not fetch), because Formspree supports direct form posts.
+        // For extra UX, we set a timer to show a friendly message if the page doesn't navigate away quickly
+        setTimeout(function () {
+          if (!document.hidden) { // still on page
+            showStatus('Still submitting — do not close this page. If you do, your upload may not complete.', 'info');
+          }
+        }, 4000);
+
+        // We do not prevent default — allow the form to POST to Formspree.
+        // Formspree may redirect or show its own confirmation.
+        // If you'd prefer a client-side fetch solution, we could implement it instead (but this is simpler and reliable).
+      });
+
+      // Prefill on page load
+      prefillFromStep1();
+    })();
+  </script>
+
 </body>
 </html>
