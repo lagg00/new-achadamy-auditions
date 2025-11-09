@@ -3,25 +3,72 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>New Achadamy Auditions</title>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <title>New Academy Auditions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #a3cfff, #ffe5b4);
+      color: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      font-weight: 700;
+      background: white;
+      padding: 20px 40px;
+      border-radius: 18px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      color: #000;
+      margin-bottom: 20px;
+    }
+
+    p {
+      max-width: 500px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      color: #222;
+      font-size: 16px;
+    }
+
+    a.button {
+      background-color: #000;
+      color: white;
+      text-decoration: none;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    a.button:hover {
+      background-color: #333;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 20px;
+      font-size: 13px;
+      color: #444;
+    }
+  </style>
 </head>
 <body>
-  <header class="header">
-    <div class="logo-circle">Your Logo</div>
-    <h1 class="title">New Achadamy</h1>
-    <p class="subtitle">Auditions Open Now</p>
-  </header>
+  <h1>Welcome to New Academy Auditions</h1>
+  <p>
+    We’re searching for the next generation of talented young performers to join the first
+    Global Christian Pop Group.  
+    If you can sing, dance, rap, or inspire — we want to hear from you.
+  </p>
 
-  <main class="content">
-    <h2>Welcome Future Stars!</h2>
-    <p>Be part of the first global Christian pop movement. Join us as we build something new and inspiring — where faith meets music and creativity.</p>
-    <a href="audition1.html" target="_blank" class="btn">Start Audition</a>
-  </main>
+  <a href="audition.html" class="button">Start Audition</a>
 
-  <footer>
-    <p>© 2025 New Achadamy. All rights reserved.</p>
-  </footer>
+  <footer>© 2025 New Academy — Global Christian Pop Auditions</footer>
 </body>
 </html>
