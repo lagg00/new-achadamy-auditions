@@ -1,21 +1,203 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>New Academy Auditions</title>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <!--
+    index.html
+    New Academy — Home / Landing Page
+    Purpose: Clean, polished landing page that links to audition steps.
+    Notes: This file is intentionally verbose and heavily commented to help you understand
+           how the layout and styles are structured. It uses an external stylesheet
+           (style.css) so your visual rules are centralized.
+  -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>New Academy Auditions — Home</title>
+
+  <!-- Fonts: Great Vibes (for logo/title) + Poppins for UI -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Link to the shared stylesheet -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Small inline script to provide environment info and debug option -->
+  <script>
+    /* Debug toggles: set to true to show outlines and debug info */
+    window.__NA_DEBUG__ = false;
+    // If debug is enabled, add a small overlay
+    if (window.__NA_DEBUG__) {
+      document.addEventListener('DOMContentLoaded', function () {
+        const dbg = document.createElement('div');
+        dbg.style.position = 'fixed';
+        dbg.style.right = '12px';
+        dbg.style.bottom = '12px';
+        dbg.style.background = 'rgba(0,0,0,0.7)';
+        dbg.style.color = 'white';
+        dbg.style.padding = '8px 10px';
+        dbg.style.borderRadius = '8px';
+        dbg.style.fontSize = '12px';
+        dbg.style.zIndex = 99999;
+        dbg.textContent = 'DEBUG ON';
+        document.body.appendChild(dbg);
+      });
+    }
+  </script>
 </head>
-<body>
-  <header>
-    <h1>Welcome to New Academy Auditions</h1>
-    <p>Your chance to join the first global Christian K-pop group.</p>
-    <a href="audition1.html" class="btn">Start Audition</a>
+<body class="page page-home">
+  <!--
+    Accessible skip link -->
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <!-- Header / Nav
+       Very simple: left logo + center title + right small help link
+       All links open in the same tab except where we explicitly set target="_blank".
+  -->
+  <header class="site-header" role="banner" aria-label="New Academy header">
+    <div class="header-inner">
+
+      <!-- Logo placeholder -->
+      <div class="logo-wrap" aria-hidden="true">
+        <div class="logo-circle" id="logoCircle">Your Logo</div>
+      </div>
+
+      <!-- Title area -->
+      <div class="title-wrap">
+        <h1 class="site-title">New Academy</h1>
+        <p class="site-tagline">Global Christian Pop — Auditions Open</p>
+      </div>
+
+      <!-- Small actions -->
+      <div class="header-actions">
+        <a class="btn btn-ghost" href="info.html">Audition Info</a>
+      </div>
+    </div>
   </header>
 
-  <footer>
-    <p>© 2025 New Academy — Global Christian Pop Auditions</p>
+  <!-- MAIN -->
+  <main id="main-content" class="main" role="main" tabindex="-1">
+    <!-- Hero card -->
+    <section class="hero card" aria-labelledby="hero-title">
+      <div class="hero-left">
+        <h2 id="hero-title" class="hero-title">Join the First Global Christian Pop Group</h2>
+        <p class="hero-lead">New Academy is calling talented youths (13–20) who can sing, dance, rap, or bring stage presence. Submit your audition and be part of something beautiful.</p>
+
+        <!-- Primary CTA: opens audition1 (step 1) in same tab -->
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="audition1.html">Start Application — Step 1</a>
+          <a class="btn btn-secondary" href="audition.html">Direct to Form (if returning)</a>
+        </div>
+      </div>
+
+      <div class="hero-right" aria-hidden="true">
+        <!-- Visual area — a mock phone / card that animates -->
+        <div class="mock-card">
+          <div class="mock-top">New Academy</div>
+          <div class="mock-body">
+            <div class="mock-line short"></div>
+            <div class="mock-line long"></div>
+            <div class="mock-line medium"></div>
+            <div class="mock-video-placeholder">Performance preview</div>
+          </div>
+          <div class="mock-bottom">Audition highlights</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features / Steps section -->
+    <section class="steps card" aria-labelledby="steps-title">
+      <h3 id="steps-title">How it works</h3>
+      <div class="steps-grid">
+        <article class="step">
+          <div class="step-index">1</div>
+          <h4>Read Info</h4>
+          <p>Start on the Info page to see eligibility, what to prepare, and audition stages.</p>
+          <a class="link" href="info.html">View Info</a>
+        </article>
+
+        <article class="step">
+          <div class="step-index">2</div>
+          <h4>Submit Step 1</h4>
+          <p>Fill in basic personal details — this doesn't post to Formspree yet.</p>
+          <a class="link" href="audition1.html">Begin Step 1</a>
+        </article>
+
+        <article class="step">
+          <div class="step-index">3</div>
+          <h4>Submit Performance</h4>
+          <p>On Step 2, upload a link or file and submit. Formspree processes the POST safely there.</p>
+          <a class="link" href="audition.html">Go to Step 2</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- Testimonials / Social proof (placeholder) -->
+    <section class="testimonials card" aria-labelledby="testi-title">
+      <h3 id="testi-title">What people say</h3>
+      <div class="testi-grid">
+        <blockquote>
+          <p>"This was a life-changing audition process. The team was kind and helped me grow."</p>
+          <cite>— Sophia, auditionee</cite>
+        </blockquote>
+        <blockquote>
+          <p>"Easy to use and very professional. The New Academy team is serious about artists."</p>
+          <cite>— Mateo, auditionee</cite>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- Footer CTA -->
+    <section class="card footer-cta">
+      <h3>Ready to get started?</h3>
+      <p>Make sure you read the info page and have a 60–120 second performance ready.</p>
+      <a class="btn btn-primary" href="audition1.html">Start Application</a>
+    </section>
+  </main>
+
+  <!-- Site footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div>© <span id="year"></span> New Academy — Global Christian Pop Auditions</div>
+      <div class="footer-links">
+        <a href="info.html">Audition Info</a>
+        <a href="terms.html">Terms</a>
+        <a href="audition.html">Submit</a>
+      </div>
+    </div>
   </footer>
+
+  <!-- Script section for small behaviors (local navigation, dynamic year, tiny animation triggers) -->
+  <script>
+    // set current year dynamically
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // small entrance animation class toggle after load
+    document.addEventListener('DOMContentLoaded', function () {
+      document.body.classList.add('is-loaded');
+    });
+
+    // Accessibility: if user pressed "skip link", focus main
+    document.querySelector('.skip-link').addEventListener('click', function (e) {
+      const main = document.getElementById('main-content');
+      main.setAttribute('tabindex', '-1');
+      main.focus();
+    });
+
+    // If there's step1 info in localStorage, show a subtle hint
+    (function showResumeNotice() {
+      try {
+        const s = localStorage.getItem('newacademy_step1');
+        if (s) {
+          // show small toast for returning users
+          const toast = document.createElement('div');
+          toast.className = 'resume-toast';
+          toast.innerHTML = 'We saved your Step 1 info — continue to Step 2 or submit a new entry. <a href="audition.html">Go to Step 2</a>';
+          document.body.appendChild(toast);
+          setTimeout(() => toast.classList.add('visible'), 120);
+          setTimeout(() => toast.classList.remove('visible'), 9000);
+        }
+      } catch (err) {
+        // localStorage might be disabled; ignore quietly
+      }
+    })();
+  </script>
 </body>
 </html>
