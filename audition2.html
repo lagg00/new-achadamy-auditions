@@ -3,40 +3,125 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Audition Form - New Achadamy</title>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <title>New Achadamy Auditions — Part 2</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #a3cfff, #ffe5b4);
+      color: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    h1 {
+      color: #000;
+      background: white;
+      padding: 12px 28px;
+      border-radius: 18px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    form {
+      background: white;
+      padding: 30px;
+      border-radius: 18px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: #6b9fff;
+      box-shadow: 0 0 6px rgba(107,159,255,0.4);
+    }
+
+    button {
+      background-color: #000;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #333;
+    }
+
+    footer {
+      margin-top: 20px;
+      color: #444;
+      font-size: 13px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-  <header class="header small">
-    <h1 class="title">Audition Form</h1>
-  </header>
 
-  <main class="content">
-    <form class="form">
-      <label>Full Name</label>
-      <input type="text" placeholder="Your full name" required>
+  <h1>Audition — Step 2</h1>
 
-      <label>Email</label>
-      <input type="email" placeholder="Your email" required>
+  <form action="https://formspree.io/f/xnnoeyng" method="POST">
+    <label for="name">Full Name</label>
+    <input type="text" id="name" name="name" required>
 
-      <label>Country</label>
-      <input type="text" placeholder="Where are you from?" required>
+    <label for="age">Age</label>
+    <input type="number" id="age" name="age" min="10" required>
 
-      <label>Audition File (Video/Audio)</label>
-      <input type="file" accept="video/*,audio/*" required>
+    <label for="email">Email</label>
+    <input type="email" id="email" name="_replyto" required>
 
-      <label class="terms">
-        <input type="checkbox" required>
-        I agree to the terms and conditions for submitting my audition.
-      </label>
+    <label for="country">Country</label>
+    <input type="text" id="country" name="country" required>
 
-      <button type="submit" class="btn">Submit Audition</button>
-    </form>
-  </main>
+    <label for="role">Preferred Role (Vocal, Rap, Dance, Visual)</label>
+    <select id="role" name="role" required>
+      <option value="">Select a role</option>
+      <option value="vocal">Vocal</option>
+      <option value="rap">Rap</option>
+      <option value="dance">Dance</option>
+      <option value="visual">Visual</option>
+    </select>
+
+    <label for="video">Audition Video Link (YouTube, Drive, etc.)</label>
+    <input type="url" id="video" name="video" placeholder="https://">
+
+    <label for="message">Message (Optional)</label>
+    <textarea id="message" name="message" rows="4" placeholder="Tell us something about you..."></textarea>
+
+    <button type="submit">Submit Audition</button>
+  </form>
 
   <footer>
-    <p>© 2025 New Achadamy</p>
+    © 2025 New Achadamy — Global Christian Pop Auditions
   </footer>
+
 </body>
 </html>
