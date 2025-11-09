@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Audition Form - New Achadamy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header small">
+    <h1 class="title">Audition Form</h1>
+  </header>
+
+  <main class="content">
+    <form class="form">
+      <label>Full Name</label>
+      <input type="text" placeholder="Your full name" required>
+
+      <label>Email</label>
+      <input type="email" placeholder="Your email" required>
+
+      <label>Country</label>
+      <input type="text" placeholder="Where are you from?" required>
+
+      <label>Audition File (Video/Audio)</label>
+      <input type="file" accept="video/*,audio/*" required>
+
+      <label class="terms">
+        <input type="checkbox" required>
+        I agree to the terms and conditions for submitting my audition.
+      </label>
+
+      <button type="submit" class="btn">Submit Audition</button>
+    </form>
+  </main>
+
+  <footer>
+    <p>© 2025 New Achadamy</p>
+  </footer>
+</body>
+</html>
